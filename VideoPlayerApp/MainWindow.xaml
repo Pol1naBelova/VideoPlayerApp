@@ -1,0 +1,59 @@
+﻿<Window x:Class="VideoPlayerApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:VideoPlayerApp.ViewModels"
+        xmlns:views="clr-namespace:VideoPlayerApp.Views"
+        Title="Video Player" Height="700" Width="1000">
+
+  <Window.DataContext>
+    <vm:MainViewModel/>
+  </Window.DataContext>
+
+  <Window.Resources>
+    <!-- Шаблон для рендеринга каждой VideoFileViewModel -->
+    <DataTemplate DataType="{x:Type vm:VideoFileViewModel}">
+      <views:VideoItemView Width="280" Margin="5"/>
+    </DataTemplate>
+  </Window.Resources>
+
+  <DockPanel>
+    <!-- Панель управления -->
+    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="5">
+      <Button Content="Загрузить видео" Command="{Binding LoadFilesCommand}" Width="120" Margin="2"/>
+      <Button Content="Play All" Click="PlayAll_Click" Width="80" Margin="2"/>
+      <Button Content="Pause All" Click="PauseAll_Click" Width="80" Margin="2"/>
+      <Button Content="Stop All" Click="StopAll_Click" Width="80" Margin="2"/>
+      <TextBlock Text="Volume:" VerticalAlignment="Center" Margin="10,0,2,0"/>
+      <Slider x:Name="VolumeSlider"
+              Minimum="0" Maximum="1" Value="0.5"
+              Width="150" TickFrequency="0.1" IsSnapToTickEnabled="True"
+              ValueChanged="VolumeSlider_ValueChanged"/>
+    </StackPanel>
+
+    <!-- Глобальный ползунок позиции -->
+    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="5">
+      <TextBlock Text="Position:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+      <Slider x:Name="GlobalPositionSlider"
+              Minimum="0" Maximum="1" Value="0"
+              Width="200" IsSnapToTickEnabled="False"
+              PreviewMouseLeftButtonUp="GlobalPositionSlider_MouseLeftButtonUp"/>
+    </StackPanel>
+
+    <!-- Обязательно завернём ItemsControl в ScrollViewer -->
+    <ScrollViewer DockPanel.Dock="Bottom"
+                  VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+      <ItemsControl x:Name="VideosPanel" ItemsSource="{Binding Videos}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <!-- WrapPanel автоматически переносит карточки -->
+            <WrapPanel IsItemsHost="True"
+                       Orientation="Horizontal"
+                       ItemWidth="280"
+                       ItemHeight="Auto"/>
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+      </ItemsControl>
+    </ScrollViewer>
+  </DockPanel>
+</Window>

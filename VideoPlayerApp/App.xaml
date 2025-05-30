@@ -1,0 +1,20 @@
+﻿<Application x:Class="VideoPlayerApp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:helpers="clr-namespace:VideoPlayerApp.Helpers"
+             StartupUri="MainWindow.xaml"
+             DispatcherUnhandledException="App_DispatcherUnhandledException">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- ваши стили, если есть -->
+                <ResourceDictionary Source="/VideoPlayerApp;component/Resources/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Встроенный конвертер -->
+            <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <!-- Ваш (Inverse) конвертер из Helpers/BooleanInverterConverter.cs -->
+            <helpers:BooleanInverterConverter x:Key="InverseBoolConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

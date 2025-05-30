@@ -1,0 +1,27 @@
+<Window x:Class="VideoPlayerApp.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:VideoPlayerApp.ViewModels"
+        xmlns:views="clr-namespace:VideoPlayerApp.Views"
+        Title="Video Player App" Height="600" Width="800">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:VideoFileViewModel}">
+            <views:VideoItemView/>
+        </DataTemplate>
+    </Window.Resources>
+    <DockPanel>
+        <Button Content="Загрузить видео"
+                Command="{Binding LoadFilesCommand}"
+                DockPanel.Dock="Top"
+                Margin="5"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Videos}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="3"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

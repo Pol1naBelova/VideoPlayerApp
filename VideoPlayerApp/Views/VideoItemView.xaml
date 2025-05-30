@@ -1,0 +1,49 @@
+<UserControl x:Class="VideoPlayerApp.Views.VideoItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Height="Auto" Width="280">
+  <Border Background="White" CornerRadius="4"
+          BorderBrush="LightGray" BorderThickness="1"
+          Padding="8" Margin="5">
+    <StackPanel>
+
+      <!-- Видео -->
+      <MediaElement x:Name="mediaElement"
+                    Source="{Binding FilePath}"
+                    LoadedBehavior="Manual"
+                    UnloadedBehavior="Manual"
+                    IsMuted="{Binding IsAudioSource, Converter={StaticResource InverseBoolConverter}}"
+                    Height="160"
+                    Stretch="UniformToFill"/>
+
+      <!-- Ползунок прогресса -->
+      <Slider x:Name="PositionSlider"
+              Margin="0,6"
+              HorizontalAlignment="Stretch"
+              PreviewMouseLeftButtonUp="PositionSlider_MouseLeftButtonUp"/>
+
+      <!-- Кнопки управления -->
+      <UniformGrid Columns="3" Margin="0,6">
+        <Button Content="Play"  Click="PlayButton_Click"  Margin="2"/>
+        <Button Content="Pause" Click="PauseButton_Click" Margin="2"/>
+        <Button Content="Stop"  Click="StopButton_Click"  Margin="2"/>
+      </UniformGrid>
+
+      <!-- Удаление видео -->
+      <UniformGrid Columns="1" Margin="0,6">
+        <Button Content="Delete"
+                Command="{Binding DataContext.RemoveVideoCommand,
+                                  RelativeSource={RelativeSource AncestorType=Window}}"
+                CommandParameter="{Binding}"
+                Margin="2"/>
+      </UniformGrid>
+
+      <!-- Выбор аудио-источника -->
+      <Button Content="Audio Source"
+              Command="{Binding DataContext.SetAudioSourceCommand,
+                                RelativeSource={RelativeSource AncestorType=Window}}"
+              CommandParameter="{Binding}"
+              Margin="0,6,0,0"/>
+    </StackPanel>
+  </Border>
+</UserControl>
